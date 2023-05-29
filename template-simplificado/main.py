@@ -4,6 +4,7 @@ import random
 from collections import deque
 from viewer import MazeViewer
 from math import inf, sqrt
+import time
 
 
 
@@ -99,7 +100,9 @@ def celulas_vizinhas_livres(celula_atual, labirinto):
     return vizinhos_livres
 
 
-def breadth_first_search(labirinto, inicio, goal, viewer):
+def breadth_first_search(labirinto, inicio, goal,
+                        #   viewer
+                          ):
     # nos gerados e que podem ser expandidos (vermelhos)
     fronteira = deque()
     # nos ja expandidos (amarelos)
@@ -136,10 +139,10 @@ def breadth_first_search(labirinto, inicio, goal, viewer):
 
         expandidos.add(no_atual)
 
-        viewer.update(generated=fronteira,
-                      expanded=expandidos)
+        # viewer.update(generated=fronteira,
+        #               expanded=expandidos)
         #viewer.pause()
-
+        # break
 
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
@@ -162,44 +165,51 @@ def a_star_search(labirinto, inicio, goal, viewer):
 
 
 def main():
-    while True:
-        #SEED = 42  # coloque None no lugar do 42 para deixar aleatorio
-        #random.seed(SEED)
-        N_LINHAS  = 200
-        N_COLUNAS = 200
-        INICIO = Celula(y=0, x=0, anterior=None)
-        GOAL   = Celula(y=N_LINHAS-1, x=N_COLUNAS-1, anterior=None)
+    # while True:
+    #SEED = 42  # coloque None no lugar do 42 para deixar aleatorio
+    #random.seed(SEED)
+    N_LINHAS  = 40
+    N_COLUNAS = 40
+    INICIO = Celula(y=0, x=0, anterior=None)
+    GOAL   = Celula(y=N_LINHAS-1, x=N_COLUNAS-1, anterior=None)
 
 
-        """
-        O labirinto sera representado por uma matriz (lista de listas)
-        em que uma posicao tem 0 se ela eh livre e 1 se ela esta ocupada.
-        """
-        labirinto = gera_labirinto(N_LINHAS, N_COLUNAS, INICIO, GOAL)
+    """
+    O labirinto sera representado por uma matriz (lista de listas)
+    em que uma posicao tem 0 se ela eh livre e 1 se ela esta ocupada.
+    """
+    labirinto = gera_labirinto(N_LINHAS, N_COLUNAS, INICIO, GOAL)
 
-        viewer = MazeViewer(labirinto, INICIO, GOAL,
-                            step_time_miliseconds=20, zoom=10)
+    # viewer = MazeViewer(labirinto, INICIO, GOAL,
+    #                     step_time_miliseconds=20, zoom=10)
 
-        #----------------------------------------
-        # BFS Search
-        #----------------------------------------
-        viewer._figname = "BFS"
-        caminho, custo_total, expandidos = \
-                breadth_first_search(labirinto, INICIO, GOAL, viewer)
+    #----------------------------------------
+    # BFS Search
+    #----------------------------------------
+    # viewer._figname = "BFS"
+    init_bfs = time.time()
+    caminho, custo_total, expandidos = \
+            breadth_first_search(labirinto, INICIO, GOAL,
+                                #   viewer
+                                    )
+    end_bfs = time.time()
 
-        if len(caminho) == 0:
-            print("Goal é inalcançavel neste labirinto.")
+    bfs_time_spent = end_bfs - init_bfs
 
-        print(
-            f"BFS:"
-            f"\tCusto total do caminho: {custo_total}.\n"
-            f"\tNumero de passos: {len(caminho)-1}.\n"
-            f"\tNumero total de nos expandidos: {len(expandidos)}.\n\n"
+    if len(caminho) == 0:
+        print("Goal é inalcançavel neste labirinto.")
 
-        )
+    print(
+        f"BFS:"
+        f"\tCusto total do caminho: {custo_total}.\n"
+        f"\tNumero de passos: {len(caminho)-1}.\n"
+        f"\tNumero total de nos expandidos: {len(expandidos)}.\n\n"
+         f"\tTempo decorrido em ms: {bfs_time_spent*1000}.\n\n"
 
-        viewer.update(path=caminho)
-        viewer.pause()
+    )
+
+        # viewer.update(path=caminho)
+        # viewer.pause()
 
 
         #----------------------------------------
@@ -217,8 +227,8 @@ def main():
 
 
 
-    print("OK! Pressione alguma tecla pra finalizar...")
-    input()
+    # print("OK! Pressione alguma tecla pra finalizar...")
+    # input()
 
 
 if __name__ == "__main__":
