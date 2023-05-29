@@ -5,7 +5,6 @@ from collections import deque
 from viewer import MazeViewer
 from math import inf, sqrt
 import time
-import math
 
 
 
@@ -101,7 +100,9 @@ def celulas_vizinhas_livres(celula_atual, labirinto):
     return vizinhos_livres
 
 
-def breadth_first_search(labirinto, inicio, goal, viewer):
+def breadth_first_search(labirinto, inicio, goal,
+                        #   viewer
+                          ):
     # nos gerados e que podem ser expandidos (vermelhos)
     fronteira = deque()
     # nos ja expandidos (amarelos)
@@ -138,10 +139,10 @@ def breadth_first_search(labirinto, inicio, goal, viewer):
 
         expandidos.add(no_atual)
 
-        viewer.update(generated=fronteira,
-                      expanded=expandidos)
+        # viewer.update(generated=fronteira,
+        #               expanded=expandidos)
         #viewer.pause()
-
+        # break
 
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
@@ -188,97 +189,19 @@ def depth_first_search(labirinto, inicio, goal, viewer):
 
         viewer.update(generated=fronteira,
                       expanded=expandidos)
-        # viewer.pause()
+        viewer.pause()
         # break
 
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
 
     return caminho, custo, expandidos
-
-
+    pass
 
 
 def a_star_search(labirinto, inicio, goal, viewer):
-
-    def heuristica(node, goal):
-        # Calcula a distancia euclidiana até o goal.
-        # Retorna um valor heurístico não negativo.
-        distance = math.sqrt((goal.x - node.x) ** 2 + (goal.y - node.y) ** 2)
-        return distance
-        pass
-
-      # nos gerados e que podem ser expandidos (vermelhos)
-    fronteira = deque()
-
-    # nos ja expandidos (amarelos)
-    expandidos = set()
-
-    # adiciona o no inicial na fronteira com custo zero
-    fronteira.append(inicio)
-    
-    # variavel para armazenar o goal quando ele for encontrado.
-    goal_encontrado = None
-
-    #Armazena os custos acumulados
-    custos_acumulados = {inicio : 0}
-
-    # Repete enquanto nos nao encontramos o goal e ainda
-    # existem para serem expandidos na fronteira. Se
-    # acabarem os nos da fronteira antes do goal ser encontrado,
-    # entao ele nao eh alcancavel.
-    while (len(fronteira) > 0) and (goal_encontrado is None):
-
-        #Necessário ordenar a fronteira pelo custo acumulado
-        fronteira = sorted(fronteira)
-
-        # seleciona o nó com menor custo acumulado
-        no_atual = fronteira.pop(0)
-
-        # Verifica se o nó já foi expandido
-        if no_atual not in expandidos:
-
-            # Marca o nó como expandido
-            expandidos.add(no_atual)
-
-            # busca os vizinhos do no
-            vizinhos = celulas_vizinhas_livres(no_atual, labirinto)
-            # para cada vizinho verifica se eh o goal e adiciona na
-            # fronteira se ainda nao foi expandido e nao esta na fronteira
-            for v in vizinhos:
-                # Calcula o novo custo acumulado
-                caminho_aux = obtem_caminho(goal_encontrado)
-                custo_aux   = custo_caminho(caminho_aux)
-                novo_custo = custos_acumulados[no_atual] + custo_aux
-
-                # Verifica se o vizinho já foi expandido ou se o novo custo é menor
-                if v not in expandidos or novo_custo < custos_acumulados[v]:
-                    # Atualiza o custo acumulado e a estimativa do custo total
-                    custos_acumulados[v] = novo_custo
-                    estimativa_custo_total = novo_custo + heuristica(v, goal)
-
-                    # Adiciona o vizinho na fronteira com o custo total estimado
-                    fronteira.append((estimativa_custo_total, v))
-
-            # if v.y == goal.y and v.x == goal.x:
-            #     goal_encontrado = v
-            #     # encerra o loop interno
-            #     break
-            # else:
-            #     if (not esta_contido(expandidos, v)) and (not esta_contido(fronteira, v)):
-            #         fronteira.append(v)
-
-        # expandidos.add(no_atual)
-        print(fronteira)
-        viewer.update(generated=fronteira,
-                      expanded=expandidos)
-        # viewer.pause()
-        # break
-
-    caminho = obtem_caminho(goal_encontrado)
-    custo   = custo_caminho(caminho)
-
-    return caminho, custo, expandidos
+    # remova o comando abaixo e coloque o codigo A-star aqui
+    pass
 
 
 
@@ -287,10 +210,10 @@ def a_star_search(labirinto, inicio, goal, viewer):
 
 def main():
     while True:
-        SEED = 42  # coloque None no lugar do 42 para deixar aleatorio
-        random.seed(SEED)
-        N_LINHAS  = 45
-        N_COLUNAS = 45
+    #SEED = 42  # coloque None no lugar do 42 para deixar aleatorio
+    #random.seed(SEED)
+        N_LINHAS  = 40
+        N_COLUNAS = 40
         INICIO = Celula(y=0, x=0, anterior=None)
         GOAL   = Celula(y=N_LINHAS-1, x=N_COLUNAS-1, anterior=None)
 
@@ -307,81 +230,41 @@ def main():
         #----------------------------------------
         # BFS Search
         #----------------------------------------
-        # init_bfs = time.time()
-        # viewer._figname = "BFS"
+        viewer._figname = "DFS"
+        init_bfs = time.time()
         # caminho, custo_total, expandidos = \
-        #         breadth_first_search(labirinto, INICIO, GOAL, viewer)
-        # end_bfs = time.time()
-        # bfs_time_spent = end_bfs - init_bfs
+        #         breadth_first_search(labirinto, INICIO, GOAL,
+        #                                viewer
+        #                                 )
+        caminho, custo_total, expandidos = \
+                depth_first_search(labirinto, INICIO, GOAL,viewer)
+        end_bfs = time.time()
 
-        # if len(caminho) == 0:
-        #     print("Goal é inalcançavel neste labirinto.")
+        bfs_time_spent = end_bfs - init_bfs
 
-        # print(
-        #     f"BFS:"
-        #     f"\tTempo decorrido em ms: {bfs_time_spent*1000}.\n"
-        #     f"\tNumero total de nos expandidos: {len(expandidos)}.\n"
-        #     f"\tCusto total do caminho: {custo_total}.\n"
-        #     f"\tNumero de passos: {len(caminho)-1}.\n"
-            
-            
-        # )
+        if len(caminho) == 0:
+            print("Goal é inalcançavel neste labirinto.")
 
-        # viewer.update(path=caminho)
-        # viewer.pause()
+        print(
+            f"BFS:"
+            f"\tCusto total do caminho: {custo_total}.\n"
+            f"\tNumero de passos: {len(caminho)-1}.\n"
+            f"\tNumero total de nos expandidos: {len(expandidos)}.\n\n"
+            f"\tTempo decorrido em ms: {bfs_time_spent*1000}.\n\n"
+
+        )
+
+        viewer.update(path=caminho)
+        viewer.pause()
 
 
         #----------------------------------------
         # DFS Search
         #----------------------------------------
 
-        # init_dfs = time.time()
-        # viewer._figname = "BFS"
-        # caminho, custo_total, expandidos = \
-        #         depth_first_search(labirinto, INICIO, GOAL, viewer)
-        # end_dfs = time.time()
-        # dfs_time_spent = end_dfs - init_dfs
-
-        # if len(caminho) == 0:
-        #     print("Goal é inalcançavel neste labirinto.")
-
-        # print(
-        #     f"DFS:"
-        #     f"\tTempo decorrido em ms: {dfs_time_spent*1000}.\n"
-        #     f"\tNumero total de nos expandidos: {len(expandidos)}.\n"
-        #     f"\tCusto total do caminho: {custo_total}.\n"
-        #     f"\tNumero de passos: {len(caminho)-1}.\n"
-            
-            
-        # )
-
-        # viewer.update(path=caminho)
-        # viewer.pause()
         #----------------------------------------
         # A-Star Search
         #----------------------------------------
-        init_A_star = time.time()
-        viewer._figname = "BFS"
-        caminho, custo_total, expandidos = \
-                a_star_search(labirinto, INICIO, GOAL, viewer)
-        end_A_star = time.time()
-        A_star_time_spent = end_A_star - init_A_star
-
-        if len(caminho) == 0:
-            print("Goal é inalcançavel neste labirinto.")
-
-        print(
-            f"DFS:"
-            f"\tTempo decorrido em ms: {dfs_time_spent*1000}.\n"
-            f"\tNumero total de nos expandidos: {len(expandidos)}.\n"
-            f"\tCusto total do caminho: {custo_total}.\n"
-            f"\tNumero de passos: {len(caminho)-1}.\n"
-            
-            
-        )
-
-        viewer.update(path=caminho)
-        viewer.pause()
 
         #----------------------------------------
         # Uniform Cost Search (Obs: opcional)
