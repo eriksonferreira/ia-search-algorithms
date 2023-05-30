@@ -105,6 +105,7 @@ def celulas_vizinhas_livres(celula_atual, labirinto):
 def breadth_first_search(labirinto, inicio, goal,
                         #   viewer
                           ):
+    print("Iniciando BFS")
     # nos gerados e que podem ser expandidos (vermelhos)
     fronteira = deque()
     # nos ja expandidos (amarelos)
@@ -155,6 +156,7 @@ def breadth_first_search(labirinto, inicio, goal,
 def depth_first_search(labirinto, inicio, goal,
                         # viewer
                         ):
+    print("Iniciando DFS*")
      # nos gerados e que podem ser expandidos (vermelhos)
     fronteira = deque()
     # nos ja expandidos (amarelos)
@@ -207,7 +209,7 @@ def depth_first_search(labirinto, inicio, goal,
 def a_star_search(labirinto, inicio, goal,
                 #    viewer
                    ):
-    
+    print("Iniciando A*")
 
     # def heuristica(node, goal):
     #     # Calcula a distancia euclidiana até o goal.
