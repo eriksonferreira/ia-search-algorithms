@@ -288,12 +288,13 @@ def a_star_search(labirinto, inicio, goal,
 
 
 def uniform_cost_search(labirinto, inicio, goal,
-                    # viewer
+                    #  viewer
                    ):
     print("Iniciando UCS")
 
      # nos gerados e que podem ser expandidos (vermelhos)
     fronteira = deque()
+    
     # nos ja expandidos (amarelos)
     expandidos = set()
 
@@ -311,10 +312,9 @@ def uniform_cost_search(labirinto, inicio, goal,
     # acabarem os nos da fronteira antes do goal ser encontrado,
     # entao ele nao eh alcancavel.
     while (len(fronteira) > 0) and (goal_encontrado is None):
-
+        # fronteira = sorted(fronteira)
         # seleciona o no mais antigo para ser expandido
         # fronteira = sorted(fronteira)
-        # print(fronteira)
         no_atual = None
         for f in fronteira:
             # print(f.estimativa)
@@ -326,9 +326,8 @@ def uniform_cost_search(labirinto, inicio, goal,
         # print(fronteira)
         fronteira.remove(no_atual)
         # print(fronteira)
-        # fronteira = sorted(fronteira)
-        # fronteira = fronteira.append(fronteira)
-        # no_atual = fronteira.popleft()
+        
+        # no_atual = fronteira.pop()
         # print(no_atual.estimativa)
         # busca os vizinhos do no
         vizinhos = celulas_vizinhas_livres(no_atual, labirinto)
@@ -347,7 +346,7 @@ def uniform_cost_search(labirinto, inicio, goal,
                 custos_acumulados[v] = novo_custo 
                 estimativa_custo_total = novo_custo #unica diferença é o fato de não ter a heurística.
                 caminho = obtem_caminho(v)
-                v.estimativa = custo_caminho(caminho) + novo_custo
+                v.estimativa = custo_caminho(caminho)
                 # print(v.estimativa)
                 # print(custos_acumulados[no_atual])
            
@@ -405,7 +404,7 @@ def main():
 
         if len(caminho) == 0:
             print("Goal é inalcançavel neste labirinto.")
-        temp_df = {'algorithm':'BFS', 'time_in_sec': bfs_time_spent, 'nodes_expanded': len(expandidos),'total_path_cost': custo_total, 'n_steps': (len(caminho)-1)}
+        temp_df = {'algorithm':'BFS', 'time': bfs_time_spent, 'nodes_expanded': len(expandidos),'total_path_cost': custo_total, 'n_steps': (len(caminho)-1)}
         statistics_df = pd.concat([statistics_df,pd.DataFrame([temp_df])], ignore_index = True)
         print(
             f"BFS:"
