@@ -376,8 +376,8 @@ def main():
     while True:
         SEED = 42  # coloque None no lugar do 42 para deixar aleatorio
         random.seed(SEED)
-        N_LINHAS  = 110
-        N_COLUNAS = 110
+        N_LINHAS  = 300
+        N_COLUNAS = 300
         INICIO = Celula(y=0, x=0, anterior=None, estimativa=0)
         GOAL   = Celula(y=N_LINHAS-1, x=N_COLUNAS-1, anterior=None, estimativa=0)
 
