@@ -503,8 +503,9 @@ def main():
 
     print(statistics_df)
     print(statistics_df.describe())
-    print("OK! Pressione alguma tecla pra finalizar...")
-    input()
+    statistics_df.to_csv('statistics.csv', encoding='utf-8')
+    # print("OK! Pressione alguma tecla pra finalizar...")
+    # input()
 
 
 if __name__ == "__main__":
