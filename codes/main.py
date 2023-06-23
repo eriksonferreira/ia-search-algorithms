@@ -174,7 +174,7 @@ def depth_first_search(labirinto, inicio, goal,
     # entao ele nao eh alcancavel.
     while (len(fronteira) > 0) and (goal_encontrado is None):
 
-        # seleciona o no mais antigo para ser expandido
+        # seleciona o no mais recente para ser expandido
         no_atual = fronteira.pop()
 
         # busca os vizinhos do no
@@ -233,8 +233,6 @@ def a_star_search(labirinto, inicio, goal,
     while (len(fronteira) > 0) and (goal_encontrado is None):
 
         # seleciona o no com menor custo acumulado
-        # fronteira = sorted(fronteira)
-        # print(fronteira)
         no_atual = None
         for f in fronteira:
             # print(f.estimativa)
@@ -242,14 +240,9 @@ def a_star_search(labirinto, inicio, goal,
                 no_atual = f
             elif f.estimativa < no_atual.estimativa:
                 no_atual = f    
-            # print(f.estimativa)
-        # print(fronteira)
+
         fronteira.remove(no_atual)
-        # print(fronteira)
-        # fronteira = sorted(fronteira)
-        # fronteira = fronteira.append(fronteira)
-        # no_atual = fronteira.popleft()
-        # print(no_atual.estimativa)
+
         # busca os vizinhos do no
         vizinhos = celulas_vizinhas_livres(no_atual, labirinto)
 
@@ -261,14 +254,14 @@ def a_star_search(labirinto, inicio, goal,
                 # encerra o loop interno
                 break
             caminho = obtem_caminho(v)
-            # print(custos_acumulados[no_atual])
+
             novo_custo = custos_acumulados[no_atual] +1
 
             if v not in expandidos or novo_custo < custos_acumulados[v]:
                 custos_acumulados[v] = novo_custo
                 estimativa_custo_total = novo_custo + distancia(v, goal) #heurística
                 v.estimativa = estimativa_custo_total
-                # print(custos_acumulados[no_atual])
+
            
             # else:
             if (not esta_contido(expandidos, v)) and (not esta_contido(fronteira, v)):
@@ -322,13 +315,9 @@ def uniform_cost_search(labirinto, inicio, goal,
                 no_atual = f
             elif f.estimativa < no_atual.estimativa:
                 no_atual = f    
-            # print(f.estimativa)
-        # print(fronteira)
+
         fronteira.remove(no_atual)
-        # print(fronteira)
-        
-        # no_atual = fronteira.pop()
-        # print(no_atual.estimativa)
+
         # busca os vizinhos do no
         vizinhos = celulas_vizinhas_livres(no_atual, labirinto)
 
@@ -347,9 +336,7 @@ def uniform_cost_search(labirinto, inicio, goal,
                 estimativa_custo_total = novo_custo #unica diferença é o fato de não ter a heurística.
                 caminho = obtem_caminho(v)
                 v.estimativa = custo_caminho(caminho)
-                # print(v.estimativa)
-                # print(custos_acumulados[no_atual])
-           
+
             # else:
             if (not esta_contido(expandidos, v)) and (not esta_contido(fronteira, v)):
                 fronteira.append(v)
