@@ -160,7 +160,7 @@ def hill_climbing(tsp):
 
 """### Hill-Climbing - Restart"""
 
-def hill_climbing_restart(tsp, restarts=1000):
+def hill_climbing_restart(tsp, restarts=50):
 
     # solucao inicial
     history = []
@@ -216,7 +216,7 @@ def acceptance_probability(current_distance, new_distance, temperature):
     else:
         return math.exp((current_distance - new_distance) / temperature)
 
-def simulated_annealing(cities, initial_temperature = 1000, cooling_rate=0.90, iterations=1000):
+def simulated_annealing(cities, initial_temperature = 1000, cooling_rate=0.90, iterations=50):
     cities_df = cities.copy()
     cities = cities.to_numpy()
     num_cities = len(cities)
@@ -362,7 +362,7 @@ def calculate_total_distance(solucao, tsp):
     # print(custo)
     return custo
 
-def tsp_genetic(cities, population_size=100, num_generations=1000, mutation_rate=0.15):
+def tsp_genetic(cities, population_size=100, num_generations=50, mutation_rate=0.15):
 
     history = []
     population = generate_initial_population(cities, population_size)
@@ -568,7 +568,7 @@ algoritmos = {
 
 # cria instancia do problema com n cidades
 
-n_cidades=35
+n_cidades=30
 df_coordenadas = gera_coordenadas_aleatorias(n_cidades)
 tsp = gera_problema_tsp(df_coordenadas)
 
