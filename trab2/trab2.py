@@ -137,7 +137,7 @@ def hill_climbing(tsp):
     history = []
     # solucao inicial
     solucao_inicial = solucao_aleatoria(tsp)
-    print(solucao_inicial)
+    # print(solucao_inicial)
     # melhor solucao ate o momento
     solucao_melhor, custo_melhor = obtem_melhor_vizinho(tsp, solucao_inicial)
 
@@ -257,7 +257,7 @@ def simulated_annealing(cities, initial_temperature = 1000, cooling_rate=0.90, i
         if new_distance < best_distance:
             best_route = new_route
             best_distance = new_distance
-            print(best_distance)
+            # print(best_distance)
 
         temperature *= cooling_rate
 
@@ -374,7 +374,7 @@ def tsp_genetic(cities, population_size=100, num_generations=1000, mutation_rate
         history.append(len(population))
         population = mutation(population, mutation_rate)
         history.append(len(population))
-        print(population)
+        # print(population)
 
 
     best_path = min(population, key=lambda path: calculate_total_distance(path, cities))
