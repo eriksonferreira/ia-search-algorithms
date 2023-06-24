@@ -24,7 +24,7 @@ import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
 import math
-
+from tqdm import tqdm
 """## Funções Auxiliares
 
 ### Solução Aleatória
