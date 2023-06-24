@@ -497,11 +497,13 @@ def cria_df_custos(algoritmos, n_vezes):
     return df_results
 
 # Executa N vezes para gerar estatísticas da variável custo
+# Executa N vezes para gerar estatísticas da variável custo
 def executa_n_vezes(tsp, algoritmos, n_vezes):
 
     # Cria DataFrame para armazenar os resultados
     df_custo = cria_df_custos(algoritmos, n_vezes)
     df_history = pd.DataFrame(columns=algoritmos.keys())
+    df_solucao = pd.DataFrame()
     df_hill_climbing = pd.DataFrame()
     df_hill_climbing_restart = pd.DataFrame()
     df_genetic_algorithm = pd.DataFrame()
@@ -512,19 +514,19 @@ def executa_n_vezes(tsp, algoritmos, n_vezes):
 
         print(algoritmo)
 
-        for i in range(n_vezes):
+        for i, count in zip(range(n_vezes), tqdm(range(n_vezes))):
             df = None
             # if algoritmo != 'Genetic Algorithm':
             custo, solucao, historico = funcao_algoritmo(tsp)
             df_temp = pd.DataFrame(solucao)
-
-
+         
+            
             if algoritmo == 'Hill-Climbing':
                 df_hill_climbing = pd.concat([df_hill_climbing, df_temp.T], axis =0).reset_index(drop=True)
-
+            
             elif algoritmo == 'Hill-Climbing Restart':
                 df_hill_climbing_restart = pd.concat([df_hill_climbing_restart, df_temp.T], axis =0).reset_index(drop=True)
-
+            
             elif algoritmo == 'Genetic Algorithm':
                 df_genetic_algorithm = pd.concat([df_genetic_algorithm, df_temp.T], axis =0).reset_index(drop=True)
                 df  = pd.DataFrame([historico])
@@ -534,13 +536,18 @@ def executa_n_vezes(tsp, algoritmos, n_vezes):
                 df  = pd.DataFrame([historico[1]], columns=historico[1].keys())
                 df_simulated_annealing = pd.concat([df_simulated_annealing, df], axis =0).reset_index(drop=True)
                 df_simulated_annealing_history = pd.concat([df_simulated_annealing_history, df_temp.T], axis =0).reset_index(drop=True)
-
-
+            
+    
             df_custo.loc[algoritmo,i] = custo
+     
+            # else:
+                # custo, solucao = funcao_algoritmo(df_coord)
+                # df_custo.loc[algoritmo,i] = custo
 
-           
+            # print(f'{custo:10.3f}  {solucao}')
 
     return df_custo, df_history, df_hill_climbing, df_hill_climbing_restart, df_simulated_annealing, df_simulated_annealing_history, df_genetic_algorithm, df_genetic_algorithm_population
+
 
 # Dicionario com Nomes dos modelos e suas respectivas variantes
 # Tuple: (Algoritmo, Variante): funcao_algoritmo
