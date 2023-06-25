@@ -499,7 +499,7 @@ def cria_df_custos(algoritmos, n_vezes):
 # Executa N vezes para gerar estatísticas da variável custo
 # Executa N vezes para gerar estatísticas da variável custo
 def executa_n_vezes(tsp, algoritmos, n_vezes):
-
+    
     # Cria DataFrame para armazenar os resultados
     df_custo = cria_df_custos(algoritmos, n_vezes)
     df_history = pd.DataFrame(columns=algoritmos.keys())
@@ -570,6 +570,8 @@ algoritmos = {
 
 n_cidades=30
 df_coordenadas = gera_coordenadas_aleatorias(n_cidades)
+df_coordenadas.to_csv("df_coordenadas", set=",")
+tsp.to_csv("tsp", set=",")
 tsp = gera_problema_tsp(df_coordenadas)
 
 # numero de vezes que executará cada algoritmo
