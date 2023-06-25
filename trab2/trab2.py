@@ -216,7 +216,7 @@ def acceptance_probability(current_distance, new_distance, temperature):
     else:
         return math.exp((current_distance - new_distance) / temperature)
 
-def simulated_annealing(cities, initial_temperature = 1000, cooling_rate=0.90, iterations=50):
+def simulated_annealing(cities, initial_temperature = 1000, cooling_rate=0.90, iterations=1000):
     cities_df = cities.copy()
     cities = cities.to_numpy()
     num_cities = len(cities)
