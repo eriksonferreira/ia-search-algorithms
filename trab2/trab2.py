@@ -570,9 +570,10 @@ algoritmos = {
 
 n_cidades=30
 df_coordenadas = gera_coordenadas_aleatorias(n_cidades)
-df_coordenadas.to_csv("df_coordenadas", set=",")
-tsp.to_csv("tsp", set=",")
+df_coordenadas.to_csv("df_coordenadas", sep=",")
 tsp = gera_problema_tsp(df_coordenadas)
+tsp.to_csv("tsp", sep=",")
+
 
 # numero de vezes que executará cada algoritmo
 n_vezes = 1000
