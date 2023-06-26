@@ -8,8 +8,12 @@ Original file is located at
 
 # Trabalho 2 - Erikson Ferreira
 
+VERSÃO .PY PARA EXECUÇÃO EM SERVIDOR
+EXECUTA OS ALGORITMOS E SALVA TODOS OS RESULTADOS E PARAMETROS EM CSV
+
 ## Importações
 """
+
 
 # Manipulação de dados
 import numpy as np
